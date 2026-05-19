@@ -244,7 +244,7 @@ module.exports = class TripAppService extends cds.ApplicationService {
                 req.error(500, 'Update error: ' + err.message);
             }
         });
-
+//TEST DATA
         await super.init();
     }
 }
