@@ -1,0 +1,112 @@
+### ═══════════════════════════════════════
+### LOCAL TESTING (cds watch)
+### http://localhost:4004
+### ═══════════════════════════════════════
+
+### 1. Get All People (from TripPin)
+GET http://localhost:4004/trip/People
+Accept: application/json
+
+###
+
+### 2. Get Status Values (from SQLite/HANA)
+GET http://localhost:4004/trip/StatusValues
+Accept: application/json
+
+###
+
+### 3. Get All Custom Data (from SQLite/HANA)
+GET http://localhost:4004/trip/CustomData
+Accept: application/json
+
+###
+
+### 4. Create Person
+### → Creates in TripPin
+### → Saves comments + status to SQLite/HANA
+POST http://localhost:4004/trip/createPerson
+Content-Type: application/json
+
+{
+    "userName" : "PCTEST4",
+    "firstName": "PC",
+    "lastName" : "CH",
+    "gender"   : "Male",
+    "email"    : "john@example.com",
+    "comments" : "CHECK",
+    "status"   : "Active"
+}
+
+###
+
+### 5. Get Person Details (Combined)
+### → TripPin data + SQLite/HANA custom data
+GET http://localhost:4004/trip/getPersonDetails(userName='PCTEST3')
+Accept: application/json
+
+###
+
+### 6. Update Custom Data only (SQLite/HANA)
+POST http://localhost:4004/trip/updateCustomData
+Content-Type: application/json
+
+{
+    "userName": "johndoe999",
+    "comments": "Updated comment locally",
+    "status"  : "Pending"
+}
+
+###
+
+### ═══════════════════════════════════════
+### BTP PRODUCTION TESTING
+### Replace with your actual BTP URL
+### ═══════════════════════════════════════
+
+### 7. Get Token first from:
+### POST https://YOUR-TRIAL.authentication.eu10.hana.ondemand.com/oauth/token
+### grant_type=client_credentials
+### client_id=YOUR_CLIENT_ID
+### client_secret=YOUR_CLIENT_SECRET
+
+### 8. Get All People (BTP)
+GET https://trip-app-srv.cfapps.eu10.hana.ondemand.com/trip/People
+Accept: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### 9. Create Person (BTP)
+POST https://trip-app-srv.cfapps.eu10.hana.ondemand.com/trip/createPerson
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+    "userName" : "btpuser001",
+    "firstName": "BTP",
+    "lastName" : "User",
+    "gender"   : "Male",
+    "email"    : "btpuser@example.com",
+    "comments" : "Created on BTP",
+    "status"   : "Active"
+}
+
+###
+
+### 10. Get Person Details (BTP)
+GET https://trip-app-srv.cfapps.eu10.hana.ondemand.com/trip/getPersonDetails(userName='btpuser001')
+Accept: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### 11. Update Custom Data (BTP)
+POST https://trip-app-srv.cfapps.eu10.hana.ondemand.com/trip/updateCustomData
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+    "userName": "btpuser001",
+    "comments": "Updated on BTP",
+    "status"  : "Closed"
+}
