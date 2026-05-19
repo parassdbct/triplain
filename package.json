@@ -1,0 +1,44 @@
+{
+  "name"   : "trip-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap/cds"       : "7.9.5",
+    "@sap/cds-dk"    : "7.9.10",
+    "express"        : "^4",
+    "@sap/xssec"     : "^3",
+    "passport"       : "^0",
+    "hdb"            : "^0",
+    "sqlite3"        : "^5"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "build": "cds build --production"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind"  : "sqlite",
+        "credentials": {
+          "database": ":memory:"
+        },
+        "[production]": {
+          "kind": "hana"
+        }
+      },
+      "auth": {
+        "kind": "dummy",
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      }
+    },
+    "build": {
+      "target": "gen",
+      "tasks": [
+        { "for": "hana"   },
+        { "for": "nodejs" }
+      ]
+    }
+  }
+}

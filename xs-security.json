@@ -1,0 +1,23 @@
+{
+  "xsappname"  : "trip-app",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name"       : "$XSAPPNAME.User",
+      "description": "Use the Trip App"
+    }
+  ],
+  "role-templates": [
+    {
+      "name"            : "User",
+      "description"     : "Trip App User",
+      "scope-references": ["$XSAPPNAME.User"]
+    }
+  ],
+  "role-collections": [
+    {
+      "name"                    : "TripApp User",
+      "role-template-references": ["$XSAPPNAME.User"]
+    }
+  ]
+}
