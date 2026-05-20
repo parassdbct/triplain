@@ -41,7 +41,7 @@ Content-Type: application/json
 
 ### 5. Get Person Details (Combined)
 ### → TripPin data + SQLite/HANA custom data
-GET http://localhost:4004/trip/getPersonDetails(userName='PCTEST3')
+GET http://localhost:4004/trip/getPersonDetails(userName='PCTEST4')
 Accept: application/json
 
 ###

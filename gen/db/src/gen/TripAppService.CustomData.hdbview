@@ -1,0 +1,10 @@
+VIEW TripAppService_CustomData AS SELECT
+  PersonCustomData_0.ID,
+  PersonCustomData_0.userName,
+  PersonCustomData_0.comments,
+  PersonCustomData_0.status,
+  PersonCustomData_0.createdBy,
+  PersonCustomData_0.createdAt,
+  PersonCustomData_0.updatedBy,
+  PersonCustomData_0.updatedAt
+FROM tripapp_PersonCustomData AS PersonCustomData_0

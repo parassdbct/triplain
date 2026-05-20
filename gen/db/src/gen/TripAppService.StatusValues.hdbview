@@ -1,0 +1,4 @@
+VIEW TripAppService_StatusValues AS SELECT
+  StatusValues_0.code,
+  StatusValues_0.description
+FROM tripapp_StatusValues AS StatusValues_0

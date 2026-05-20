@@ -1,0 +1,469 @@
+{
+  "namespace": "tripapp",
+  "definitions": {
+    "tripapp.PersonCustomData": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 500
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "createdBy": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "createdAt": {
+          "type": "cds.DateTime"
+        },
+        "updatedBy": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "updatedAt": {
+          "type": "cds.DateTime"
+        }
+      }
+    },
+    "tripapp.StatusValues": {
+      "kind": "entity",
+      "elements": {
+        "code": {
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "TripAppService": {
+      "@source": "srv/trip-service.cds",
+      "kind": "service",
+      "@path": "/trip"
+    },
+    "TripAppService.People": {
+      "kind": "entity",
+      "@readonly": true,
+      "@cds.persistence.skip": true,
+      "@UI.HeaderInfo.TypeName": "Person",
+      "@UI.HeaderInfo.TypeNamePlural": "People",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "UserName"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "FirstName"
+      },
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserName"
+          },
+          "Label": "Username"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "FirstName"
+          },
+          "Label": "First Name"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "LastName"
+          },
+          "Label": "Last Name"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Gender"
+          },
+          "Label": "Gender"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Email"
+          },
+          "Label": "Email"
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "UserName"
+        },
+        {
+          "=": "FirstName"
+        },
+        {
+          "=": "LastName"
+        }
+      ],
+      "@UI.FieldGroup#PersonDetails.Label": "Person Details",
+      "@UI.FieldGroup#PersonDetails.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserName"
+          },
+          "Label": "Username"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "FirstName"
+          },
+          "Label": "First Name"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "LastName"
+          },
+          "Label": "Last Name"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Gender"
+          },
+          "Label": "Gender"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Email"
+          },
+          "Label": "Email"
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "Person Details",
+          "Target": "@UI.FieldGroup#PersonDetails"
+        }
+      ],
+      "elements": {
+        "UserName": {
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "FirstName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "LastName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "Gender": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "Email": {
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    },
+    "TripAppService.CustomData": {
+      "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Custom Data",
+      "@UI.HeaderInfo.TypeNamePlural": "Custom Data",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "userName"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "status"
+      },
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "userName"
+          },
+          "Label": "Username"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "comments"
+          },
+          "Label": "Comments"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          },
+          "Label": "Status"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          },
+          "Label": "Created By"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          },
+          "Label": "Created At"
+        }
+      ],
+      "@UI.FieldGroup#CustomInfo.Label": "Custom Information",
+      "@UI.FieldGroup#CustomInfo.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "userName"
+          },
+          "Label": "Username"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "comments"
+          },
+          "Label": "Comments"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          },
+          "Label": "Status"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          },
+          "Label": "Created By"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          },
+          "Label": "Created At"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "updatedBy"
+          },
+          "Label": "Updated By"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "updatedAt"
+          },
+          "Label": "Updated At"
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "Custom Information",
+          "Target": "@UI.FieldGroup#CustomInfo"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "tripapp.PersonCustomData"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 500
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "createdBy": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "createdAt": {
+          "type": "cds.DateTime"
+        },
+        "updatedBy": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "updatedAt": {
+          "type": "cds.DateTime"
+        }
+      }
+    },
+    "TripAppService.StatusValues": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "tripapp.StatusValues"
+          ]
+        }
+      },
+      "elements": {
+        "code": {
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "TripAppService.PersonDetails": {
+      "kind": "type",
+      "elements": {
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "firstName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "lastName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "gender": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "email": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 500
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "createdBy": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "createdAt": {
+          "type": "cds.DateTime"
+        }
+      }
+    },
+    "TripAppService.createPerson": {
+      "kind": "action",
+      "params": {
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "firstName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "lastName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "gender": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "email": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 500
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 20
+        }
+      },
+      "returns": {
+        "type": "TripAppService.PersonDetails"
+      }
+    },
+    "TripAppService.getPersonDetails": {
+      "kind": "function",
+      "params": {
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        }
+      },
+      "returns": {
+        "type": "TripAppService.PersonDetails"
+      }
+    },
+    "TripAppService.updateCustomData": {
+      "kind": "action",
+      "params": {
+        "userName": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 500
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 20
+        }
+      },
+      "returns": {
+        "type": "TripAppService.PersonDetails"
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v4.9.10",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

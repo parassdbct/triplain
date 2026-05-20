@@ -1,6 +1,11 @@
 {
   "xsappname"  : "trip-app",
   "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://0d164e94trial-dev-trip-app-approuter.cfapps.us10-001.hana.ondemand.com/**"
+    ]
+  },
   "scopes": [
     {
       "name"       : "$XSAPPNAME.User",

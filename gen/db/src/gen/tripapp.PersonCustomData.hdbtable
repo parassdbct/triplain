@@ -1,0 +1,11 @@
+COLUMN TABLE tripapp_PersonCustomData (
+  ID NVARCHAR(36) NOT NULL,
+  userName NVARCHAR(100),
+  comments NVARCHAR(500),
+  status NVARCHAR(20),
+  createdBy NVARCHAR(100),
+  createdAt SECONDDATE,
+  updatedBy NVARCHAR(100),
+  updatedAt SECONDDATE,
+  PRIMARY KEY(ID)
+)

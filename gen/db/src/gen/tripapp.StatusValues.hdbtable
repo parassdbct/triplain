@@ -1,0 +1,5 @@
+COLUMN TABLE tripapp_StatusValues (
+  code NVARCHAR(20) NOT NULL,
+  description NVARCHAR(50),
+  PRIMARY KEY(code)
+)

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="TripAppService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="People" EntityType="TripAppService.People"/>
+        <EntitySet Name="CustomData" EntityType="TripAppService.CustomData"/>
+        <EntitySet Name="StatusValues" EntityType="TripAppService.StatusValues"/>
+        <ActionImport Name="createPerson" Action="TripAppService.createPerson"/>
+        <FunctionImport Name="getPersonDetails" Function="TripAppService.getPersonDetails"/>
+        <ActionImport Name="updateCustomData" Action="TripAppService.updateCustomData"/>
+      </EntityContainer>
+      <EntityType Name="People">
+        <Key>
+          <PropertyRef Name="UserName"/>
+        </Key>
+        <Property Name="UserName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="FirstName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="LastName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="Gender" Type="Edm.String" MaxLength="10"/>
+        <Property Name="Email" Type="Edm.String" MaxLength="100"/>
+      </EntityType>
+      <EntityType Name="CustomData">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="500"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset"/>
+        <Property Name="updatedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="updatedAt" Type="Edm.DateTimeOffset"/>
+      </EntityType>
+      <EntityType Name="StatusValues">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+      <ComplexType Name="PersonDetails">
+        <Property Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="firstName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="lastName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="gender" Type="Edm.String" MaxLength="10"/>
+        <Property Name="email" Type="Edm.String" MaxLength="100"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="500"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset"/>
+      </ComplexType>
+      <Action Name="createPerson" IsBound="false">
+        <Parameter Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Parameter Name="firstName" Type="Edm.String" MaxLength="100"/>
+        <Parameter Name="lastName" Type="Edm.String" MaxLength="100"/>
+        <Parameter Name="gender" Type="Edm.String" MaxLength="10"/>
+        <Parameter Name="email" Type="Edm.String" MaxLength="100"/>
+        <Parameter Name="comments" Type="Edm.String" MaxLength="500"/>
+        <Parameter Name="status" Type="Edm.String" MaxLength="20"/>
+        <ReturnType Type="TripAppService.PersonDetails"/>
+      </Action>
+      <Function Name="getPersonDetails" IsBound="false" IsComposable="false">
+        <Parameter Name="userName" Type="Edm.String" MaxLength="100"/>
+        <ReturnType Type="TripAppService.PersonDetails"/>
+      </Function>
+      <Action Name="updateCustomData" IsBound="false">
+        <Parameter Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Parameter Name="comments" Type="Edm.String" MaxLength="500"/>
+        <Parameter Name="status" Type="Edm.String" MaxLength="20"/>
+        <ReturnType Type="TripAppService.PersonDetails"/>
+      </Action>
+      <Annotations Target="TripAppService.People">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Person"/>
+            <PropertyValue Property="TypeNamePlural" String="People"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="UserName"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="FirstName"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="UserName"/>
+              <PropertyValue Property="Label" String="Username"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="FirstName"/>
+              <PropertyValue Property="Label" String="First Name"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="LastName"/>
+              <PropertyValue Property="Label" String="Last Name"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Gender"/>
+              <PropertyValue Property="Label" String="Gender"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Email"/>
+              <PropertyValue Property="Label" String="Email"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>UserName</PropertyPath>
+            <PropertyPath>FirstName</PropertyPath>
+            <PropertyPath>LastName</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="PersonDetails">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Label" String="Person Details"/>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="UserName"/>
+                  <PropertyValue Property="Label" String="Username"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="FirstName"/>
+                  <PropertyValue Property="Label" String="First Name"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="LastName"/>
+                  <PropertyValue Property="Label" String="Last Name"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Gender"/>
+                  <PropertyValue Property="Label" String="Gender"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Email"/>
+                  <PropertyValue Property="Label" String="Email"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Person Details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#PersonDetails"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TripAppService.EntityContainer/People">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TripAppService.CustomData">
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Custom Data"/>
+            <PropertyValue Property="TypeNamePlural" String="Custom Data"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="userName"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="status"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="userName"/>
+              <PropertyValue Property="Label" String="Username"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="comments"/>
+              <PropertyValue Property="Label" String="Comments"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="status"/>
+              <PropertyValue Property="Label" String="Status"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="createdBy"/>
+              <PropertyValue Property="Label" String="Created By"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="createdAt"/>
+              <PropertyValue Property="Label" String="Created At"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="CustomInfo">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Label" String="Custom Information"/>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="userName"/>
+                  <PropertyValue Property="Label" String="Username"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="comments"/>
+                  <PropertyValue Property="Label" String="Comments"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="status"/>
+                  <PropertyValue Property="Label" String="Status"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="createdBy"/>
+                  <PropertyValue Property="Label" String="Created By"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="createdAt"/>
+                  <PropertyValue Property="Label" String="Created At"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="updatedBy"/>
+                  <PropertyValue Property="Label" String="Updated By"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="updatedAt"/>
+                  <PropertyValue Property="Label" String="Updated At"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Custom Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#CustomInfo"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TripAppService.CustomData/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TripAppService.EntityContainer/StatusValues">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

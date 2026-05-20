@@ -5,15 +5,14 @@ description: Trip App - TripPin OData + HANA Cloud
 
 modules:
 
-# ─────────────────────────────
 # CAP Backend Service
-# ─────────────────────────────
 - name: trip-app-srv
   type: nodejs
   path: gen/srv
   requires:
     - name: trip-app-db
     - name: trip-app-xsuaa
+    - name: trip-app-destination
   provides:
     - name: srv-api
       properties:
@@ -24,10 +23,7 @@ modules:
     memory: 256M
     disk-quota: 512M
 
-# ─────────────────────────────
 # HANA DB Deployer
-# Deploys schema to HANA Cloud
-# ─────────────────────────────
 - name: trip-app-db-deployer
   type: hdb
   path: gen/db
@@ -37,16 +33,14 @@ modules:
     memory: 256M
     disk-quota: 512M
 
-# ─────────────────────────────
 # App Router
-# Handles login + routing
-# ─────────────────────────────
 - name: trip-app-approuter
   type: approuter.nodejs
   path: approuter
   requires:
     - name: trip-app-xsuaa
     - name: trip-app-html5-runtime
+    - name: trip-app-destination
     - name: srv-api
       group: destinations
       properties:
@@ -59,18 +53,14 @@ modules:
 
 resources:
 
-# ─────────────────────────────
 # HANA Cloud HDI Container
-# ─────────────────────────────
 - name: trip-app-db
   type: com.sap.xs.hdi-container
   parameters:
     service     : hana
     service-plan: hdi-shared
 
-# ─────────────────────────────
 # XSUAA Security Service
-# ─────────────────────────────
 - name: trip-app-xsuaa
   type: org.cloudfoundry.managed-service
   parameters:
@@ -78,11 +68,16 @@ resources:
     service-plan: application
     path        : ./xs-security.json
 
-# ─────────────────────────────
 # HTML5 Apps Repo Runtime
-# ─────────────────────────────
 - name: trip-app-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:
     service     : html5-apps-repo
     service-plan: app-runtime
+
+# Destination Service
+- name: trip-app-destination
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service     : destination
+    service-plan: lite
