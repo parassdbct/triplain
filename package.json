@@ -1,24 +1,27 @@
 {
-  "name"   : "trip-app",
+  "name": "trip-app",
   "version": "1.0.0",
   "dependencies": {
-    "@sap/cds"       : "7.9.5",
-    "@sap/cds-dk"    : "7.9.10",
-    "express"        : "^4",
-    "@sap/xssec"     : "^3",
-    "passport"       : "^0",
-    "hdb"            : "^0",
-    "sqlite3"        : "^5"
+    "@sap/cds": "^8",
+    "express": "^4",
+    "@sap/xssec": "^3",
+    "passport": "^0",
+    "hdb": "^0",
+    "sqlite3": "^5",
+    "@cap-js/sqlite": "^1"
   },
   "scripts": {
     "start": "cds-serve",
     "watch": "cds watch",
-    "build": "cds build --production"
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "watch-people": "cds watch --open people/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy trip-app --delete-services --delete-service-keys --delete-service-brokers",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "cds": {
     "requires": {
       "db": {
-        "kind"  : "sqlite",
+        "kind": "sqlite",
         "credentials": {
           "database": ":memory:"
         },
@@ -36,9 +39,21 @@
     "build": {
       "target": "gen",
       "tasks": [
-        { "for": "hana"   },
+        { "for": "hana" },
         { "for": "nodejs" }
       ]
     }
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "devDependencies": {
+    "cds-plugin-ui5": "^0.13.0",
+    "@sap/cds-dk": "^8",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.29"
+  },
+  "sapux": [
+    "app/people"
+  ]
 }

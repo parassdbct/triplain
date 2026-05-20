@@ -1,83 +1,111 @@
-_schema-version: '3.1'
+_schema-version: "3.1"
 ID: trip-app
-version: 1.0.0
 description: Trip App - TripPin OData + HANA Cloud
-
+version: 1.0.0
 modules:
-
-# CAP Backend Service
 - name: trip-app-srv
   type: nodejs
   path: gen/srv
   requires:
-    - name: trip-app-db
-    - name: trip-app-xsuaa
-    - name: trip-app-destination
+  - name: trip-app-db
+  - name: trip-app-xsuaa
+  - name: trip-app-destination
   provides:
-    - name: srv-api
-      properties:
-        srv-url: ${default-url}
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
   parameters:
     buildpacks:
-      - nodejs_buildpack
-    memory: 256M
+    - nodejs_buildpack
     disk-quota: 512M
-
-# HANA DB Deployer
+    memory: 256M
 - name: trip-app-db-deployer
   type: hdb
   path: gen/db
   requires:
-    - name: trip-app-db
+  - name: trip-app-db
   parameters:
-    memory: 256M
     disk-quota: 512M
-
-# App Router
+    memory: 256M
 - name: trip-app-approuter
   type: approuter.nodejs
   path: approuter
   requires:
-    - name: trip-app-xsuaa
-    - name: trip-app-html5-runtime
-    - name: trip-app-destination
-    - name: srv-api
-      group: destinations
-      properties:
-        name            : srv-api
-        url             : ~{srv-url}
-        forwardAuthToken: true
+  - name: trip-app-xsuaa
+  - name: trip-app-html5-runtime
+  - name: trip-app-destination
+  - name: srv-api
+    group: destinations
+    properties:
+      forwardAuthToken: true
+      name: srv-api
+      url: ~{srv-url}
   parameters:
-    memory    : 256M
     disk-quota: 512M
-
+    memory: 256M
+- name: trip-app-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: trip-app-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - people.zip
+      name: people
+      target-path: resources/
+- name: people
+  type: html5
+  path: app/people
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
-
-# HANA Cloud HDI Container
 - name: trip-app-db
   type: com.sap.xs.hdi-container
   parameters:
-    service     : hana
+    service: hana
     service-plan: hdi-shared
-
-# XSUAA Security Service
 - name: trip-app-xsuaa
   type: org.cloudfoundry.managed-service
   parameters:
-    service     : xsuaa
+    path: ./xs-security.json
+    service: xsuaa
     service-plan: application
-    path        : ./xs-security.json
-
-# HTML5 Apps Repo Runtime
 - name: trip-app-html5-runtime
   type: org.cloudfoundry.managed-service
   parameters:
-    service     : html5-apps-repo
+    service: html5-apps-repo
     service-plan: app-runtime
-
-# Destination Service
 - name: trip-app-destination
   type: org.cloudfoundry.managed-service
   parameters:
-    service     : destination
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+    service: destination
     service-plan: lite
+- name: trip-app-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: trip-app-html5-service
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true

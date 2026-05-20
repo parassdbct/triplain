@@ -1,0 +1,1 @@
+using TripAppService as service from '../../srv/trip-service';
